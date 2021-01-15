@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Form, FormControl, InputGroup } from "react-bootstrap";
+import { Button, Col, Container, Form, FormControl, InputGroup } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 import useLocalStorage from './useLocalStorage';
 
@@ -44,9 +44,9 @@ function ShoppingList() {
 
 
   return (
-    <>
+    <Container className="d-flex align-items-center flex-column">
       <h1>Shopping List</h1>
-      <table>
+      <InputGroup className="d-flex align-items-center flex-column">
         {items.map((element) => (
           <ShoppingListEntry
             name={element.name}
@@ -57,44 +57,45 @@ function ShoppingList() {
             id={element.id}
           />
         ))}
-        <InputGroup>
-          <Button onClick={addHandler}><Plus /></Button>
-        </InputGroup>
-      </table>
-    </>
+      </InputGroup>
+      <Button onClick={addHandler}><Plus /></Button>
+    </Container>
   );
 }
 
 function ShoppingListEntry(props) {
   return (
-    <tr>
-      <InputGroup>
-        <Form.Row>
-          <Col md="auto">
-            <FormControl
-              placeholder="Bitte gebe einen Eintrag ein"
-              onChange={(e) => props.changeName(e.target.value, props.id)}
-              value={props.name}
-            ></FormControl>
-          </Col>
-          <Col md="1">
-            <FormControl
-              placeholder="Bitte gebe die Menge ein"
-              onChange={(e) => props.changeAmount(e.target.value, props.id)}
-              value={props.amount}
-            ></FormControl>
-          </Col>
-          <InputGroup.Append>
-            <Button
-              variant="danger"
-              onClick={() => props.deleteMethod(props.id)}
-            >
-              Löschen
+    <>
+      <Form.Row className="mb-2 col-xs-12 col-lg-12">
+        <FormControl
+          // className="w-50 min-vw-150 p-1 mr-2"
+          className="col-xs-6 col-lg-6"
+          style={{ minWidth: "100px" }}
+          placeholder="Bitte gebe einen Eintrag ein"
+          onChange={(e) => props.changeName(e.target.value, props.id)}
+          value={props.name}
+        ></FormControl>
+        {/* </Col> */}
+        {/* <Col md="1"> */}
+        <FormControl
+          // className="w-25 mw-10 p-1 mr-2"
+          className="col-xs-6 col-lg-3"
+          placeholder="Bitte gebe die Menge ein"
+          onChange={(e) => props.changeAmount(e.target.value, props.id)}
+          value={props.amount}
+        ></FormControl>
+        {/* </Col> */}
+        <InputGroup.Append className="col-xs-12 col-lg-3"> 
+          <Button
+            className="w-20"
+            variant="danger"
+            onClick={() => props.deleteMethod(props.id)}
+          >
+            Löschen
             </Button>
-          </InputGroup.Append>
-        </Form.Row>
-      </InputGroup>
-    </tr>
+        </InputGroup.Append>
+      </Form.Row>
+    </>
   );
 }
 
