@@ -4,14 +4,14 @@ import { Plus } from "react-bootstrap-icons";
 import useLocalStorage from './useLocalStorage';
 
 function ShoppingList() {
-  const [items, setItems] = useLocalStorage("shoppinglist", [{ id: 0, name: "", amount: 1, isDone: false }]);
+  const [items, setItems] = useLocalStorage("shoppinglist", [{ id: 0, name: "", amount: 1, isDone: false, date: new Date()}]);
 
   function deleteEntryByID(id) {
     setItems(items.filter(entry => entry.id !== id));
   }
 
   const addHandler = () => {
-    setItems([...items, { id: items.length !== 0 ? Math.max(...items.map((l) => l.id)) + 1 : 0, name: "", amount: 1, isDone: false }]);
+    setItems([...items, { id: items.length !== 0 ? Math.max(...items.map((l) => l.id)) + 1 : 0, name: "", amount: 1, isDone: false, date: new Date()}]);
   }
 
   const changeName = (newValue, idx) => {
@@ -55,6 +55,7 @@ function ShoppingList() {
             changeName={changeName}
             changeAmount={changeAmount}
             id={element.id}
+            date={element.date.toLocaleTimeString() +" "+ element.date.toLocaleDateString()}
           />
         ))}
       </InputGroup>
@@ -79,13 +80,16 @@ function ShoppingListEntry(props) {
         {/* <Col md="1"> */}
         <FormControl
           // className="w-25 mw-10 p-1 mr-2"
-          className="col-xs-6 col-lg-3"
+          className="col-xs-6 col-lg-2"
           placeholder="Bitte gebe die Menge ein"
           onChange={(e) => props.changeAmount(e.target.value, props.id)}
           value={props.amount}
         ></FormControl>
         {/* </Col> */}
-        <InputGroup.Append className="col-xs-12 col-lg-3"> 
+        <InputGroup.Append className="col-xs-12 col-lg-2"> 
+          <p>{props.date}</p>
+        </InputGroup.Append>
+        <InputGroup.Append className="col-xs-12 col-lg-2"> 
           <Button
             className="w-20"
             variant="danger"
